@@ -7,6 +7,7 @@ import 'package:firebase_core/firebase_core.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+
   Firebase.initializeApp();
 
   runApp(const MyApp());
@@ -17,9 +18,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: SplashScreen(),
+      theme: ThemeData(primarySwatch: Colors.deepPurple),
+      home: const SplashScreen(),
     );
   }
 }
