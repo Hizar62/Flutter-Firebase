@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "881829179981",
+    "project_id": "dumy-251c8",
+    "storage_bucket": "dumy-251c8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:881829179981:android:6f65cfb8a1a1e1f8faa204",
+        "android_client_info": {
+          "package_name": "com.example.firebaselearning"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCy9WJS2Oh0SY5ldGxg_G2FOxtJNrVuzyk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
