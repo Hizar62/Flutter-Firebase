@@ -1,8 +1,7 @@
-// import 'dart:html';
-
-// import 'dart:js_interop_unsafe';
-
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebaselearning/ui/auth/signup_screen.dart';
+import 'package:firebaselearning/ui/posts/post_screen.dart';
+import 'package:firebaselearning/utils/utils.dart';
 import 'package:firebaselearning/widgets/round_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -15,16 +14,43 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  bool loading = false;
   final _formKey = GlobalKey<FormState>();
-  // final TextEditingController _emailController = TextEditingController();
-  // final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   _emailController.dispose();
-  //   _passwordController.dispose();
-  // }
+  final _auth = FirebaseAuth.instance;
+
+  @override
+  void dispose() {
+    super.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+  }
+
+  void login() {
+    setState(() {
+      loading = true;
+    });
+    _auth
+        .signInWithEmailAndPassword(
+            email: _emailController.text,
+            password: _passwordController.text.toString())
+        .then((value) {
+      setState(() {
+        loading = false;
+      });
+      Utils().toastMessage(value.user!.email.toString());
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => PostScreen()));
+    }).onError((error, stackTrace) {
+      setState(() {
+        loading = false;
+      });
+      debugPrint(error.toString());
+      Utils().toastMessage(error.toString());
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +75,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Column(
                   children: [
                     TextFormField(
-                      // controller: _emailController,
+                      controller: _emailController,
                       keyboardType: TextInputType.emailAddress,
                       decoration: const InputDecoration(
                           hintText: 'Email',
@@ -66,7 +92,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       height: 10,
                     ),
                     TextFormField(
-                      // controller: _passwordController,
+                      controller: _passwordController,
                       keyboardType: TextInputType.text,
                       obscureText: true,
                       decoration: const InputDecoration(
@@ -88,8 +114,11 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               RoundButton(
                   title: "Login",
+                  loading: loading,
                   onTap: () {
-                    if (_formKey.currentState!.validate()) ;
+                    if (_formKey.currentState!.validate()) {
+                      login();
+                    }
                   }),
               const SizedBox(
                 height: 30,
